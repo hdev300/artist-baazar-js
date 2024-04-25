@@ -2,9 +2,9 @@ import { Inter } from "next/font/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+// import { SessionProvider } from "next-auth/react";
 import { ToastContainer } from "react-toastify";
 import "slick-carousel/slick/slick.css";
-import "./react-slick.css";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,11 +18,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>  <ToastContainer />
-        <Provider store={store}>
-          <SessionProvider session={session}>
+        {/* <Provider store={store}> */}
+          {/* <SessionProvider session={session}> */}
             <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-          </SessionProvider>
-        </Provider></body>
+          {/* </SessionProvider> */}
+        {/* </Provider> */}
+        </body>
     </html>
   );
 }

@@ -3,7 +3,7 @@ import { continueWithGoogleAction, loginByPhoneAction, otpVerifyAction } from ".
 
 const initialState = {
     loading: true,
-    currentUser: getUser(),
+    currentUser: [],
 };
 
 const authSlice = createSlice({

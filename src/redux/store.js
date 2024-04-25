@@ -1,8 +1,16 @@
-const { createStore } = require("@reduxjs/toolkit");
+import rootReducers from "./reducers";
 
-const rootReducers = ""/* your root reducers here */
+const { createStore, configureStore } = require("@reduxjs/toolkit");
 
-export const store = createStore(rootReducers);
+
+export const store = configureStore({
+    reducer: rootReducers,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+            immutableCheck: false,
+        })
+});
 
 const appThunkDispatch = (dispatch) => (action) => {
   if (typeof action === "function") {
@@ -11,14 +19,17 @@ const appThunkDispatch = (dispatch) => (action) => {
   return dispatch(action);
 };
 
-const appStore = {
-  ...store,
-  dispatch: useAppDispatch(store.dispatch)
-};
 
-const useAppDispatch = (action) => (dispatch, getState) => {
+
+ export const useAppDispatch = (action) => (dispatch, getState) => {
   if (typeof action === "function") {
     return action(dispatch, getState);
   }
   return dispatch(action);
 };
+
+
+const appStore = {
+    ...store,
+    dispatch: useAppDispatch(store.dispatch)
+  };

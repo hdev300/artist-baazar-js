@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 export default async (req) => {
   const isAuth = req.cookies.get("user");
 
@@ -11,15 +13,15 @@ const authRoutes = ["/", "/auth/login", "/auth/register"];
 
 
   if (isAuth && protectedRoutes.includes(req.nextUrl.pathname)) {
-    return NextResponse.next();
+    return NextResponse?.next();
   }
 
   if (!isAuth && protectedRoutes.includes(req.nextUrl.pathname)) {
-    return NextResponse.redirect(process.env.NEXT_PUBLIC_AUTH_URL);
+    return NextResponse?.redirect(process.env.NEXT_PUBLIC_AUTH_URL);
   }
 
   if (isAuth && authRoutes.includes(req.nextUrl.pathname)) {
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_AUTH_URL}/dashboard`);
+    return NextResponse?.redirect(`${process.env.NEXT_PUBLIC_AUTH_URL}/dashboard`);
   }
 
   return NextResponse.next();
