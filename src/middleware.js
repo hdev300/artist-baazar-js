@@ -4,14 +4,14 @@ export default async (req) => {
   const isAuth = req.cookies.get("user");
 
   const protectedRoutes = ["/dashboard"];
-  const authRoutes = ["/", "/auth/login", "/auth/register"];
+  const authRoutes = ["/", "/auth/login", "/auth/register","/dashboard"];
 
   if (isAuth && protectedRoutes.includes(req.nextUrl.pathname)) {
     return NextResponse?.next();
   }
 
   if (!isAuth && protectedRoutes.includes(req.nextUrl.pathname)) {
-    return NextResponse?.redirect(process.env.NEXT_PUBLIC_AUTH_URL);
+    return NextResponse?.redirect( `${process.env.NEXT_PUBLIC_AUTH_URL}/dashboard`);
   }
 
   if (isAuth && authRoutes.includes(req.nextUrl.pathname)) {

@@ -27,3 +27,47 @@ export const aboutUsContactsData = [
     image: "/images/about-us/mail.svg",
   },
 ];
+
+export const logo = "https://picsum.photos/200/300";
+
+export const ArtistBazarDisplayCardata = [
+  {
+    title: "Dashboard",
+    description: "Welcome to your dashboard, here you can view your all transactions",
+    image: logo,
+  },
+  {
+    title: "Transaction History",
+    description:
+      "Here you can view the transaction history of your account, including the date, amount, and status of each transaction.",
+    image: logo,
+  },
+  {
+    title: "Recent Activity",
+    description:
+      "Here is a list of your recent activity, including the date, type, and status of each activity.",
+    image: logo,
+  },
+  {
+    title: "Account Information",
+    description:
+      "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old",
+    image: logo,
+  },
+];
+
+ export const artistModernCardData = [
+  {
+    title: "New Changes",
+  },
+  {
+    title: "Transaction",
+  },
+  {
+    title: "Activity",
+   
+  },
+  {
+    title: "Avatar",
+  },
+];
