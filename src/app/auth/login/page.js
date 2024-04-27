@@ -1,23 +1,25 @@
 "use client";
 import React from "react";
-import {
-  CardMedia,
-  Typography,
-  Grid,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
+import { CardMedia, Typography, Grid } from "@mui/material";
 import ArtistTextfield from "@/components/ArtistTextfield";
 import ArtistButton from "@/components/ArtistButton";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { authSelector } from "@/redux/auth/authSlice";
+import { loginArtistAction } from "@/redux/auth/middleware";
+import AuthCard from "@/components/AuthCard";
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const { loading } = useSelector(authSelector);
+
   const { push } = useRouter();
   const initialValues = {
-    email: "",
-    password: "",
+    email: "eve.holt@reqres.in",
+    password: "cityslicka",
   };
 
   const signInSchema = yup.object().shape({
@@ -25,26 +27,27 @@ const Login = () => {
     password: yup.string().trim().required("Password is required"),
   });
 
-  const { handleChange, handleBlur, isSubmitting, values, touched, errors } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: signInSchema,
-      onSubmit: async (val, err) => {
-        // await dispatch(loginUserByEmailAction(val)).then(async ({ payload }) => {
-        //   if (payload.status === 200) {
-        //     return setTimeout(async () => {
-        //       await showSuccessMessage(payload.data.message);
-        //       await dispatch(hideLoader());
-        //       await navigate("/");
-        //     }, []);
-        //   }
-        //   return setTimeout(async () => {
-        //     await showErrorMessage(payload.data.message);
-        //     await dispatch(hideLoader());
-        //   }, []);
-        // });
-      },
-    });
+  const {
+    handleChange,
+    handleBlur,
+    submitForm,
+    isSubmitting,
+    values,
+    touched,
+    errors,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: signInSchema,
+    onSubmit: async (val) => {
+      await dispatch(loginArtistAction(val)).then(async ({ payload }) => {
+        if (payload.status === 200) {
+          return setTimeout(async () => {
+            push("/dashboard");
+          });
+        }
+      });
+    },
+  });
 
   return (
     <Grid
@@ -125,27 +128,8 @@ const Login = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid
-            item
-            xs={12}
-            sm={10}
-            md={10}
-            lg={10}
-            xl={7}
-            p={4}
-            sx={{
-              backgroundColor: "#FFFFFF",
-              boxShadow: 3,
-              borderRadius: 5,
-            }}
-          >
-            <Grid container>
-              <Grid item xs={12} display="flex" justifyContent="center">
-                <Typography variant="h4" fontWeight={500} color="#333333">
-                  Log in
-                </Typography>
-              </Grid>
-
+          <Grid item xs={12} sm={10} md={10} lg={10} xl={7}>
+            <AuthCard title="Log in">
               <Grid item xs={12} mt={1} display="flex" justifyContent="center">
                 <Typography variant="body2" gutterBottom color="#666666">
                   New to Artist Bazaar?&nbsp;
@@ -208,16 +192,16 @@ const Login = () => {
               <Grid item xs={12} mt={2}>
                 <ArtistButton
                   fullWidth
-                  isLoading={isSubmitting}
-                  disabled={isSubmitting}
-                  type="submit"
+                  isLoading={isSubmitting || loading}
+                  disabled={isSubmitting || loading}
                   size="large"
                   text="Log in"
-                  loadingText="Log in..."
+                  loadingText="Logign in..."
                   className="orange-bg br-20"
+                  onClick={submitForm}
                 />
               </Grid>
-            </Grid>
+            </AuthCard>
           </Grid>
         </Grid>
       </Grid>

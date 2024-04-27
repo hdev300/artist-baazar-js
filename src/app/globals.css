@@ -43,7 +43,7 @@
   --card-border-rgb: 131, 134, 135;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
@@ -74,7 +74,7 @@
     --card-rgb: 100, 100, 100;
     --card-border-rgb: 200, 200, 200;
   }
-}
+} */
 
 * {
   box-sizing: border-box;
@@ -116,20 +116,8 @@ a {
 }
 
 /* my css start here */
-.white-color {
-  color: #FFFFFF !important;
-}
-
-.primary-color {
-  color: #31996a !important;
-}
-
-.primary-bg {
-  background: #31996a !important;
-}
-
 .orange-bg {
-  background: #F3C539 !important;
+  background: #f3c539 !important;
 }
 
 .slick-slider {
@@ -181,7 +169,12 @@ a {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(254, 163, 64, 0) 25.44%, rgba(12, 5, 70, 0.5) 100%), #31996a !important;
+  background: linear-gradient(
+      180deg,
+      rgba(254, 163, 64, 0) 25.44%,
+      rgba(12, 5, 70, 0.5) 100%
+    ),
+    #31996a !important;
 }
 
 .br-20 {

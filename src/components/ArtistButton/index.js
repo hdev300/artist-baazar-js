@@ -7,7 +7,7 @@ const ArtistButton = ({
   className,
   fullWidth,
   variant,
-  handleClick,
+  onClick,
   type,
   size,
   color,
@@ -19,7 +19,7 @@ const ArtistButton = ({
       className={className}
       fullWidth={fullWidth || false}
       variant={variant || "contained"}
-      onClick={handleClick}
+      onClick={onClick}
       type={type || "button"}
       disabled={isLoading || disabled || false}
       size={size || "medium"}

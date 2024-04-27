@@ -1,48 +1,56 @@
 "use client";
 import React from "react";
-import {
-  CardMedia,
-  Typography,
-  Grid,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
+import { CardMedia, Typography, Grid } from "@mui/material";
 import ArtistTextfield from "@/components/ArtistTextfield";
 import ArtistButton from "@/components/ArtistButton";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { authSelector } from "@/redux/auth/authSlice";
+import { resetPasswordArtistAction } from "@/redux/auth/middleware";
+import AuthCard from "@/components/AuthCard";
 
 const ResetPassword = () => {
+  const dispatch = useAppDispatch();
+  const { loading } = useSelector(authSelector);
+
+  const { push } = useRouter();
   const initialValues = {
-    email: "",
-    password: "",
+    email: "harshad@gmail.com",
+    password: "Harshad@123",
   };
 
-  const signInSchema = yup.object().shape({
+  const resetPasswordSchema = yup.object().shape({
     email: yup.string().trim().email().required("Email is required"),
     password: yup.string().trim().required("Password is required"),
   });
 
-  const { handleChange, handleBlur, isSubmitting, values, touched, errors } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: signInSchema,
-      onSubmit: async (val, err) => {
-        // await dispatch(loginUserByEmailAction(val)).then(async ({ payload }) => {
-        //   if (payload.status === 200) {
-        //     return setTimeout(async () => {
-        //       await showSuccessMessage(payload.data.message);
-        //       await dispatch(hideLoader());
-        //       await navigate("/");
-        //     }, []);
-        //   }
-        //   return setTimeout(async () => {
-        //     await showErrorMessage(payload.data.message);
-        //     await dispatch(hideLoader());
-        //   }, []);
-        // });
-      },
-    });
+  const {
+    handleChange,
+    handleBlur,
+    submitForm,
+    isSubmitting,
+    values,
+    touched,
+    errors,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: resetPasswordSchema,
+    onSubmit: async (val) => {
+      console.log("onSubmit val : ", val);
+      await dispatch(resetPasswordArtistAction(val)).then(
+        async ({ payload }) => {
+          if (payload.status === 200) {
+            return setTimeout(async () => {
+              push("/auth/login");
+            });
+          }
+        }
+      );
+    },
+  });
 
   return (
     <Grid
@@ -51,7 +59,7 @@ const ResetPassword = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      bgcolor="#1F1F1F"
+      // bgcolor="#1F1F1F"
       p={{ xs: 3, sm: 0.5 }}
     >
       {/* div1 start */}
@@ -98,15 +106,6 @@ const ResetPassword = () => {
               }}
               fontWeight={600}
               color="#FFFFFF"
-              // sx={{
-              //   backgroundColor: {
-              //     xs: "red",
-              //     sm: "yellow",
-              //     md: "silver",
-              //     lg: "pink",
-              //     xl: "green",
-              //   },
-              // }}
             >
               Discover The Perfect Artist
             </Typography>
@@ -123,32 +122,13 @@ const ResetPassword = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid
-            item
-            xs={12}
-            sm={10}
-            md={10}
-            lg={10}
-            xl={7}
-            p={4}
-            sx={{
-              backgroundColor: "#FFFFFF",
-              boxShadow: 3,
-              borderRadius: 5,
-            }}
-          >
-            <Grid container>
-              <Grid item xs={12} display="flex" justifyContent="center">
-                <Typography variant="h4" fontWeight={500} color="#333333">
-                  Log in
-                </Typography>
-              </Grid>
-
+          <Grid item xs={12} sm={10} md={10} lg={10} xl={7}>
+            <AuthCard title="Sign Up">
               <Grid item xs={12} mt={1} display="flex" justifyContent="center">
                 <Typography variant="body2" gutterBottom color="#666666">
                   New to Artist Bazaar?&nbsp;
                   <b
-                    onClick={() => navigate("/signup")}
+                    onClick={() => push("/auth/signup")}
                     style={{
                       cursor: "pointer",
                       width: "fit-content !important",
@@ -190,7 +170,7 @@ const ResetPassword = () => {
 
               <Grid item xs={12} mt={1}>
                 <Typography
-                  onClick={() => navigate("/forgot-password")}
+                  onClick={() => push("/auth/forgot-password")}
                   variant="body2"
                   gutterBottom
                   sx={{
@@ -206,16 +186,16 @@ const ResetPassword = () => {
               <Grid item xs={12} mt={2}>
                 <ArtistButton
                   fullWidth
-                  isLoading={isSubmitting}
-                  disabled={isSubmitting}
-                  type="submit"
+                  isLoading={isSubmitting || loading}
+                  disabled={isSubmitting || loading}
                   size="large"
                   text="Log in"
-                  loadingText="Log in..."
+                  loadingText="Logign in..."
                   className="orange-bg br-20"
+                  onClick={submitForm}
                 />
               </Grid>
-            </Grid>
+            </AuthCard>
           </Grid>
         </Grid>
       </Grid>
