@@ -22,7 +22,7 @@ const ArtistButton = ({
       onClick={onClick}
       type={type || "button"}
       disabled={isLoading || disabled || false}
-      size={size || "medium"}
+      size={size || "small"}
       sx={{
         textTransform: "capitalize",
         fontWeight: 600,
