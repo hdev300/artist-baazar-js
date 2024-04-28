@@ -7,10 +7,12 @@ const AboutUsContactCard = ({ row }) => {
   return (
     <Card elevation={5}>
       <Grid container p={3} display="flex" justifyContent="center">
-        <Grid item xs={8}>
+        <Grid item xs={10}>
           <Stack direction="column" gap={3} display="flex" alignItems="center">
-            <img src={image} alt="gesg" height={40} width={40} />
-            <Typography variant="body1">{title}</Typography>
+            <img src={image} alt="gesg" height={50} width={50} />
+            <Typography minHeight={50} variant="body1" align="center">
+              {title}
+            </Typography>
           </Stack>
         </Grid>
       </Grid>
